@@ -1,4 +1,4 @@
-# Sleact - Backend
+# Sleact - Front
 
 Inflearn) Slack 클론 코딩[실시간 채팅 with React] 강의 학습<br />
 https://github.com/ZeroCho/sleact
