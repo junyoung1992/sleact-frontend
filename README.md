@@ -36,8 +36,10 @@ npm i -D eslint \
 ```
 .
 |-- pages      : 서비스 페이지
-    |-- Login
-    |-- SignUp
+|   |-- login
+|   |-- signUp
+|   |-- channel
+|   `-- directMessage
 |-- components : 컴포넌트
 |-- layouts    : 공통 레이아웃
 |-- hooks
