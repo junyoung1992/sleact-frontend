@@ -13,7 +13,8 @@ npm i react react-dom \
     @loadable/component \
     @emotion/react @emotion/styled \
     axios swr \
-    gravatar @types/gravatar
+    gravatar @types/gravatar \
+    react-mentions @types/react-mentions
 ```
 
 ```bash
