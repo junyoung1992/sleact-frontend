@@ -12,18 +12,17 @@ import axios from 'axios';
 
 const directMessage = () => {
   const { workspace, id } = useParams<{ workspace?: string; id?: string }>();
-  const { data: userData } = useSWR(`/api/workspace/${workspace}/users/${id}`, fetcher);
+  const { data: userData } = useSWR(`/api/workspaces/${workspace}/users/${id}`, fetcher);
   const { data: myData } = useSWR('/api/users', fetcher);
   const [chat, onChangeChat, setChat] = useInput('');
   const { data: chatData, mutate: mutateChat } = useSWR<IDM[]>(
-    `/api/workspace/${workspace}/dms/${id}/chats?perPage=20&page=1`,
+    `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=1`,
     fetcher,
   );
 
   const onSubmitForm = useCallback(
     (e: React.FormEvent<HTMLElement>) => {
       e.preventDefault();
-      console.log(chat);
       if (chat?.trim()) {
         axios
           .post(`/api/workspaces/${workspace}/dms/${id}/chats`, { content: chat })
@@ -34,7 +33,7 @@ const directMessage = () => {
           .catch(console.error);
       }
     },
-    [chat],
+    [chat, id, mutateChat, setChat, workspace],
   );
 
   if (!userData || !myData) {
@@ -47,7 +46,7 @@ const directMessage = () => {
         <img src={gravatar.url(userData.email, { s: '24px', d: 'retro' })} alt={userData.nickname} />
         <span>{userData.nickname}</span>
       </Header>
-      <ChatList />
+      <ChatList chatData={chatData} />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} placeHolder="" />
     </Container>
   );

@@ -34,12 +34,10 @@ const SignUp = () => {
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log(email, nickname, password, passwordCheck);
       if (!mismatchError) {
         setSignUpError('');
         setSignUpSuccess(false);
 
-        console.log('서버로 회원가입하기');
         axios
           .post('/api/users', {
             email,
@@ -47,11 +45,9 @@ const SignUp = () => {
             password,
           })
           .then((response) => {
-            console.log(response);
             setSignUpSuccess(true);
           })
           .catch((error) => {
-            console.log(error.response);
             setSignUpError(error.response.data);
           })
           .finally(() => {});

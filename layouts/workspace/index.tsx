@@ -1,6 +1,6 @@
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router';
 import useSWR from 'swr';
 import {
@@ -33,6 +33,7 @@ import InviteWorkspaceModal from '@components/inviteWorkspaceModal';
 import InviteChannelModal from '@components/InviteChannelModal';
 import ChannelList from '@components/channelList';
 import DMList from '@components/dmList';
+import useSocket from '@hooks/useSocket';
 
 const Channel = loadable(() => import('@pages/channel'));
 const DirectMessage = loadable(() => import('@pages/directMessage'));
@@ -47,7 +48,7 @@ const Workspace: FC = () => {
   const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
-  const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
+  const { workspace } = useParams<{ workspace: string }>();
   const {
     data: userData,
     error,
@@ -57,6 +58,20 @@ const Workspace: FC = () => {
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
+  const [socket, disconnect] = useSocket(workspace);
+
+  useEffect(() => {
+    if (channelData && userData && socket) {
+      console.log(socket);
+      socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
+    }
+  }, [channelData, socket, userData]);
+
+  useEffect(() => {
+    return () => {
+      disconnect();
+    };
+  }, [disconnect, workspace]);
 
   const onLogout = useCallback(() => {
     axios
@@ -66,7 +81,7 @@ const Workspace: FC = () => {
       .then(() => {
         mutate(false, false);
       });
-  }, []);
+  }, [mutate]);
 
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
@@ -115,7 +130,7 @@ const Workspace: FC = () => {
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [newWorkspace, newUrl],
+    [newWorkspace, newUrl, mutate, setNewWorkspace, setNewUrl],
   );
 
   const toggleWorkspaceModal = useCallback(() => {

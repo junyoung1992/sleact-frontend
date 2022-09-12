@@ -14,8 +14,12 @@ npm i react react-dom \
     @emotion/react @emotion/styled \
     axios swr \
     gravatar @types/gravatar \
-    react-mentions @types/react-mentions
-    autosize @types/autosize
+    autosize @types/autosize \
+    socket-io@2 @types/socket-io@1 \
+    dayjs \
+    react-mentions @types/react-mentions regexify-string
+
+npm i react-custom-scrollbars @types/react-custom-scrollbars --force
 ```
 
 ```bash
