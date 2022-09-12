@@ -1,18 +1,48 @@
-import React, { FC } from 'react';
-import { useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { ChatArea, Form, MentionsTextarea, SendButton, Toolbox } from './styles';
+import autosize from 'autosize';
 
 interface Prop {
   chat: string;
+  onSubmitForm: (e: React.FormEvent<HTMLElement>) => void;
+  onChangeChat: (e: any) => void;
+  placeHolder: string;
 }
 
-const ChatBox: FC<Prop> = ({ chat }) => {
-  const onSubmitForm = useCallback(() => {}, []);
+const ChatBox: FC<Prop> = ({ chat, onSubmitForm, onChangeChat, placeHolder }) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    if (textareaRef.current) {
+      autosize(textareaRef.current);
+    }
+  }, []);
+
+  const onKeyDownChat = useCallback(
+    (e: any) => {
+      console.log(e.nativeEvent.isComposing);
+      // 한글 입력시 마지막 엔터 입력시  e.nativeEvent.isComposing = true, false가 함께 입력됨
+      // 마지막 false가 입력될 때 채팅 전송
+      if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+        if (!e.shiftKey) {
+          e.preventDefault();
+          onSubmitForm(e);
+        }
+      }
+    },
+    [onSubmitForm],
+  );
 
   return (
     <ChatArea>
       <Form onSubmit={onSubmitForm}>
-        <MentionsTextarea />
+        <MentionsTextarea
+          id="editor-chat"
+          value={chat}
+          onChange={onChangeChat}
+          onKeyDown={onKeyDownChat}
+          placeholder={placeHolder}
+          ref={textareaRef}
+        />
         <Toolbox>
           <SendButton
             className={

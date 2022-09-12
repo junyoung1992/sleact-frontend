@@ -15,11 +15,14 @@ npm i react react-dom \
     axios swr \
     gravatar @types/gravatar \
     react-mentions @types/react-mentions
+    autosize @types/autosize
 ```
 
 ```bash
 npm i -D eslint \
     prettier eslint-plugin-prettier eslint-config-prettier \
+    eslint-config-react-app eslint-plugin-flowtype eslint-plugin-import \
+    eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react \
     webpack webpack-cli webpack-dev-server \
     @types/node @types/webpack @types/webpack-dev-server \
     babel-loader @babel/eslint-parser @babel/core @babel/preset-typescript \
