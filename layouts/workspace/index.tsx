@@ -30,7 +30,7 @@ import Modal from '@components/modal';
 import { toast } from 'react-toastify';
 import CreateChannelModal from '@components/createChannelModal';
 import InviteWorkspaceModal from '@components/inviteWorkspaceModal';
-import InviteChannelModal from '@components/InviteChannelModal';
+import InviteChannelModal from '@components/inviteChannelModal';
 import ChannelList from '@components/channelList';
 import DMList from '@components/dmList';
 import useSocket from '@hooks/useSocket';

@@ -27,8 +27,8 @@ npm i -D eslint \
     prettier eslint-plugin-prettier eslint-config-prettier \
     eslint-config-react-app eslint-plugin-flowtype eslint-plugin-import \
     eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react \
-    webpack webpack-cli webpack-dev-server \
-    @types/node @types/webpack @types/webpack-dev-server \
+    webpack webpack-cli webpack-dev-server webpack-bundle-analyzer \
+    @types/node @types/webpack @types/webpack-dev-server @types/webpack-bundle-analyzer \
     babel-loader @babel/eslint-parser @babel/core @babel/preset-typescript \
     @babel/preset-env @babel/preset-typescript @babel/preset-react \
     style-loader css-loader \
@@ -43,13 +43,23 @@ npm i -D eslint \
 
 ```
 .
-|-- pages      : 서비스 페이지
+|-- pages
 |   |-- login
 |   |-- signUp
 |   |-- channel
 |   `-- directMessage
-|-- components : 컴포넌트
-|-- layouts    : 공통 레이아웃
+|-- components
+|   |-- channelList
+|   |-- chat
+|   |-- chatBox
+|   |-- chatList
+|   |-- createChannelModal
+|   |-- dmList
+|   |-- inviteChannelModal
+|   |-- inviteWorkspaceModal
+|   |-- menu
+|   `-- modal
+|-- layouts
 |-- hooks
 |-- typings
 `-- utils

@@ -12,7 +12,7 @@ import axios from 'axios';
 import makeSection from '@utils/makeSection';
 import Scrollbars from 'react-custom-scrollbars';
 import useSocket from '@hooks/useSocket';
-import InviteChannelModal from '@components/InviteChannelModal';
+import InviteChannelModal from '@components/inviteChannelModal';
 
 const Channel = () => {
   const { workspace, channel } = useParams<{ workspace?: string; channel?: string }>();
