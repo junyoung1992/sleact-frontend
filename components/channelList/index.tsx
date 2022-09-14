@@ -5,6 +5,7 @@ import fetcher from '@utils/fetcher';
 import React, { FC, useCallback, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 
 const ChannelList: FC = () => {
@@ -13,14 +14,12 @@ const ChannelList: FC = () => {
     data: userData,
     error,
     mutate,
-  } = useSWR<IUser | false>('/api/users', fetcher, {
+  } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
-  const localtion = useLocation();
   //   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
-  const [countList, setCountList] = useState<{ [key: string]: number | undefined }>({});
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
@@ -41,7 +40,15 @@ const ChannelList: FC = () => {
       <div>
         {!channelCollapse &&
           channelData?.map((channel) => {
-            return <EachChannel key={channel.id} channel={channel} />;
+            return (
+              <NavLink
+                key={channel.name}
+                className={({ isActive }) => (isActive ? 'selected' : 'not')}
+                to={`/workspace/${workspace}/channel/${channel.name}`}
+              >
+                <span># {channel.name}</span>
+              </NavLink>
+            );
           })}
       </div>
     </>

@@ -145,10 +145,6 @@ const Workspace: FC = () => {
     setShowInviteWorkspaceModal(true);
   }, []);
 
-  const onClickInviteChannel = useCallback(() => {
-    setShowInviteChannelModal(true);
-  }, []);
-
   if (!userData) {
     return <Navigate replace to="/login" />;
   }

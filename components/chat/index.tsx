@@ -1,4 +1,4 @@
-import { IDM, IUser } from '@typings/db';
+import { IChat, IDM, IUser } from '@typings/db';
 import React, { FC, memo, useMemo } from 'react';
 import { ChatWrapper } from './styles';
 import gravator from 'gravatar';
@@ -8,13 +8,13 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 interface Props {
-  data: IDM;
+  data: IChat | IDM;
 }
 
 const Chat: FC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string }>();
 
-  const user: IUser = data.Sender;
+  const user: IUser = 'Sender' in data ? data.Sender : data.User;
 
   const result = useMemo<(string | JSX.Element)[]>(() => {
     return regexifyString({

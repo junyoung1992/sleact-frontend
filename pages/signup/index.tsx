@@ -22,14 +22,14 @@ const SignUp = () => {
       setPassword(e.target.value);
       setMismatchError(e.target.value !== passwordCheck);
     },
-    [passwordCheck],
+    [passwordCheck, setMismatchError, setPassword],
   );
   const onChangePasswordCheck = useCallback(
     (e: any) => {
       setPasswordCheck(e.target.value);
       setMismatchError(e.target.value !== password);
     },
-    [password],
+    [password, setMismatchError, setPasswordCheck],
   );
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +53,7 @@ const SignUp = () => {
           .finally(() => {});
       }
     },
-    [email, nickname, password, passwordCheck, mismatchError],
+    [email, nickname, password, mismatchError],
   );
 
   if (data === undefined) {
