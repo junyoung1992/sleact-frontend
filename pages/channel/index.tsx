@@ -58,6 +58,7 @@ const Channel = () => {
           return prevChatData;
         }, false) // optimistic ui: 안정성 vs 사용성
           .then(() => {
+            localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
             setChat('');
             scrollbarRef.current?.scrollToBottom();
           });
@@ -115,6 +116,12 @@ const Channel = () => {
     }
   }, [chatData]);
 
+  // 채팅 확인 시점: local storage에 저장
+  // 채널 unread 채팅 수 확인할 때 사용
+  useEffect(() => {
+    localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+  }, [channel, workspace]);
+
   const onClickInviteChannel = useCallback(() => {
     setShowInviteChannelModal(true);
   }, []);
@@ -157,6 +164,7 @@ const Channel = () => {
 
       axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {
         setDragOver(false);
+        localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
         mutateChat();
       });
     },
@@ -188,11 +196,11 @@ const Channel = () => {
     [channel, mutateChat, workspace],
   );
 
+  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
+
   if (!myData) {
     return null;
   }
-
-  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
 
   return (
     <Container onDragOver={onDragOver} onDrop={onDrop}>

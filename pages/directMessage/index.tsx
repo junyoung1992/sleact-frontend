@@ -60,6 +60,7 @@ const DirectMessage = () => {
         axios
           .post(`/api/workspaces/${workspace}/dms/${id}/chats`, { content: chat })
           .then(() => {
+            localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
             mutateChat();
           })
           .catch(console.error);
@@ -92,6 +93,26 @@ const DirectMessage = () => {
     },
     [id, mutateChat, myData],
   );
+
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [onMessage, socket]);
+
+  // 로딩 시 스크롤바 제일 아래로
+  useEffect(() => {
+    if (chatData?.length === 1) {
+      scrollbarRef.current?.scrollToBottom();
+    }
+  }, [chatData]);
+
+  // 채팅 확인 시점: local storage에 저장
+  // dm unread 채팅 수 확인할 때 사용
+  useEffect(() => {
+    localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
+  }, [id, workspace]);
 
   const onDragOver = useCallback(
     (e: any) => {
@@ -127,31 +148,18 @@ const DirectMessage = () => {
 
       axios.post(`/api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
         setDragOver(false);
+        localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
         mutateChat();
       });
     },
     [id, mutateChat, workspace],
   );
 
-  useEffect(() => {
-    socket?.on('dm', onMessage);
-    return () => {
-      socket?.off('dm', onMessage);
-    };
-  }, [onMessage, socket]);
-
-  // 로딩 시 스크롤바 제일 아래로
-  useEffect(() => {
-    if (chatData?.length === 1) {
-      scrollbarRef.current?.scrollToBottom();
-    }
-  }, [chatData]);
+  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
 
   if (!userData || !myData) {
     return null;
   }
-
-  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
 
   return (
     <Container onDragOver={onDragOver} onDrop={onDrop}>
