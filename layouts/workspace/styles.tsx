@@ -169,6 +169,20 @@ export const WorkspaceModal = styled.div`
     background: transparent;
     border-top: 1px solid rgb(28, 29, 28);
     cursor: pointer;
+  }
+
+  & > a {
+    padding: 0px;
+  }
+
+  & > a > button {
+    width: 100%;
+    height: 28px;
+    padding: 4px;
+    border: none;
+    background: transparent;
+    border-top: 1px solid rgb(28, 29, 28);
+    cursor: pointer;
 
     &:last-of-type {
       border-bottom: 1px solid rgb(28, 29, 28);

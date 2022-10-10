@@ -60,12 +60,12 @@ const Workspace: FC = () => {
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
   const [socket, disconnect] = useSocket(workspace);
 
-  useEffect(() => {
-    if (channelData && userData && socket) {
-      console.log(socket);
-      socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
-    }
-  }, [channelData, socket, userData]);
+  // useEffect(() => {
+  //   if (channelData && userData && socket) {
+  //     console.log(socket);
+  //     socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
+  //   }
+  // }, [channelData, socket, userData]);
 
   useEffect(() => {
     return () => {
@@ -154,17 +154,20 @@ const Workspace: FC = () => {
       <Header>
         <RightMenu>
           <span onClick={onClickUserProfile}>
-            <ProfileImg src={gravatar.url(userData.email, { s: '28px', d: 'retro' })} alt={userData.nickname} />
+            <ProfileImg src={gravatar.url(userData.email, { s: '28px', d: 'retro' })} alt={userData.name} />
             {showUserMenu && (
               <Menu style={{ right: 0, top: 38 }} show={showUserMenu} onCloseModal={onCloseUserProfile}>
                 <ProfileModal>
-                  <img src={gravatar.url(userData.email, { s: '36px', d: 'retro' })} alt={userData.nickname} />
+                  <img src={gravatar.url(userData.email, { s: '36px', d: 'retro' })} alt={userData.name} />
                   <div>
-                    <span id="profile-name">{userData.nickname}</span>
+                    <span id="profile-name">{userData.name}</span>
                     <span id="profile-active">Active</span>
                   </div>
                 </ProfileModal>
-                <LogOutButton onClick={onLogout}>로그아웃</LogOutButton>
+                <a href="http://localhost:8080/logout">
+                  {/* <LogOutButton onClick={onLogout}>로그아웃</LogOutButton> */}
+                  <LogOutButton>로그아웃</LogOutButton>
+                </a>
               </Menu>
             )}
           </span>
@@ -172,7 +175,7 @@ const Workspace: FC = () => {
       </Header>
       <WorkspaceWrapper>
         <Workspaces>
-          {userData?.Workspaces?.map((ws: IWorkspace) => {
+          {userData?.workspaces?.map((ws: IWorkspace) => {
             return (
               <Link key={ws.id} to={`/workspace/${ws.url}/channel/일반`}>
                 <WorkspaceButton>{ws.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
@@ -189,7 +192,10 @@ const Workspace: FC = () => {
                 <h2>Sleact</h2>
                 <button onClick={onClickInviteWorkspace}>워크스페이스에 사용자 초대</button>
                 <button onClick={onClickAddChannel}>채널 만들기</button>
-                <button onClick={onLogout}>로그아웃</button>
+                {/* <button onClick={onLogout}>로그아웃</button> */}
+                <a href="http://localhost:8080/logout">
+                  <button onClick={onLogout}>로그아웃</button>
+                </a>
               </WorkspaceModal>
             </Menu>
             <ChannelList />

@@ -15,7 +15,7 @@ const BACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3095
 const Chat: FC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string }>();
 
-  const user: IUser = 'Sender' in data ? data.Sender : data.User;
+  const user: IUser = 'sender' in data ? data.sender : data.user;
 
   const result = useMemo(
     () =>
@@ -44,11 +44,11 @@ const Chat: FC<Props> = ({ data }) => {
   return (
     <ChatWrapper>
       <div className="chat-img">
-        <img src={gravator.url(user.email, { s: '36px', d: 'retro' })} alt={user.nickname} />
+        <img src={gravator.url(user.email, { s: '36px', d: 'retro' })} alt={user.name} />
       </div>
       <div className="chat-text">
         <div className="chat-user">
-          <b>{user.nickname}</b>
+          <b>{user.name}</b>
           <span>{dayjs(data.createdAt).format('h:mm A')}</span>
         </div>
         <p>{result}</p>

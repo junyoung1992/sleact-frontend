@@ -13,6 +13,7 @@ import makeSection from '@utils/makeSection';
 import Scrollbars from 'react-custom-scrollbars';
 import useSocket from '@hooks/useSocket';
 import InviteChannelModal from '@components/inviteChannelModal';
+import dayjs from 'dayjs';
 
 const Channel = () => {
   const { workspace, channel } = useParams<{ workspace?: string; channel?: string }>();
@@ -49,16 +50,16 @@ const Channel = () => {
           prevChatData?.[0].unshift({
             id: (chatData[0][0]?.id || 0) + 1,
             content: savedChat,
-            UserId: myData.id,
-            User: myData,
-            ChannelId: channelData.id,
-            Channel: channelData,
+            userId: myData.id,
+            user: myData,
+            channelId: channelData.id,
+            channel: channelData,
             createdAt: new Date(),
           });
           return prevChatData;
         }, false) // optimistic ui: 안정성 vs 사용성
           .then(() => {
-            localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+            localStorage.setItem(`${workspace}-${channel}`, dayjs(new Date().getTime()).format('YYYY-MM-DDTHH:mm:ss'));
             setChat('');
             scrollbarRef.current?.scrollToBottom();
           });
@@ -79,8 +80,8 @@ const Channel = () => {
       // 상대방의 채팅만 mutateChat
       // 내가 입력한 채팅은 socket.io를 통해 들어오면 안됨
       if (
-        data.Channel.name === channel &&
-        (data.content.startsWith('uploads\\') || data.content.startsWith('uploads/') || data.UserId !== myData.id)
+        data.channel.name === channel &&
+        (data.content.startsWith('uploads\\') || data.content.startsWith('uploads/') || data.userId !== myData.id)
       ) {
         mutateChat((chatData) => {
           chatData?.[0].unshift(data);
@@ -119,7 +120,7 @@ const Channel = () => {
   // 채팅 확인 시점: local storage에 저장
   // 채널 unread 채팅 수 확인할 때 사용
   useEffect(() => {
-    localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+    localStorage.setItem(`${workspace}-${channel}`, dayjs(new Date().getTime()).format('YYYY-MM-DDTHH:mm:ss'));
   }, [channel, workspace]);
 
   const onClickInviteChannel = useCallback(() => {
@@ -164,7 +165,7 @@ const Channel = () => {
 
       axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {
         setDragOver(false);
-        localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+        localStorage.setItem(`${workspace}-${channel}`, dayjs(new Date().getTime()).format('YYYY-MM-DDTHH:mm:ss'));
         mutateChat();
       });
     },

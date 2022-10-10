@@ -10,7 +10,7 @@ const SignUp = () => {
   const { data, error, mutate } = useSWR('/api/users', fetcher);
 
   const [email, onChangeEmail] = useInput('');
-  const [nickname, onChangeNickname] = useInput('');
+  const [name, onChangename] = useInput('');
   const [password, , setPassword] = useInput('');
   const [passwordCheck, , setPasswordCheck] = useInput('');
   const [mismatchError, , setMismatchError] = useInput(false);
@@ -41,7 +41,7 @@ const SignUp = () => {
         axios
           .post('/api/users', {
             email,
-            nickname,
+            name,
             password,
           })
           .then((response) => {
@@ -53,7 +53,7 @@ const SignUp = () => {
           .finally(() => {});
       }
     },
-    [email, nickname, password, mismatchError],
+    [email, name, password, mismatchError],
   );
 
   if (data === undefined) {
@@ -74,10 +74,10 @@ const SignUp = () => {
             <Input type="email" id="email" name="email" value={email} onChange={onChangeEmail} />
           </div>
         </Label>
-        <Label id="nickname-label">
+        <Label id="name-label">
           <span>닉네임</span>
           <div>
-            <Input type="text" id="nickname" name="nickname" value={nickname} onChange={onChangeNickname} />
+            <Input type="text" id="name" name="name" value={name} onChange={onChangename} />
           </div>
         </Label>
         <Label id="password-label">
@@ -98,7 +98,7 @@ const SignUp = () => {
             />
           </div>
           {mismatchError && <Error>비밀번호가 일치하지 않습니다.</Error>}
-          {!nickname && <Error>닉네임을 입력해주세요.</Error>}
+          {!name && <Error>닉네임을 입력해주세요.</Error>}
           {signUpError && <Error>{signUpError}</Error>}
           {signUpSuccess && <Success>회원가입되었습니다! 로그인해주세요.</Success>}
         </Label>

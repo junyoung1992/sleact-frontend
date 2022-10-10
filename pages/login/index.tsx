@@ -1,5 +1,5 @@
 import useInput from '@hooks/useInput';
-import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages/signup/styles';
+import { Button, Error, Form, Header, Input, Label, LinkContainer, LoginForm } from './styles';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
@@ -35,9 +35,9 @@ const LogIn = () => {
     [email, password, mutate],
   );
 
-  if (userData === undefined) {
-    return <div>로딩중...</div>;
-  }
+  // if (userData === undefined) {
+  //   return <div>로딩중...</div>;
+  // }
 
   if (userData) {
     return <Navigate replace to="/workspace/sleact/channel/일반" />;
@@ -52,7 +52,7 @@ const LogIn = () => {
   return (
     <div id="container">
       <Header>Sleact</Header>
-      <Form onSubmit={onSubmit}>
+      {/* <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>
           <div>
@@ -71,7 +71,12 @@ const LogIn = () => {
       <LinkContainer>
         아직 회원이 아니신가요?&nbsp;
         <Link to="/signup">회원가입 하러가기</Link>
-      </LinkContainer>
+      </LinkContainer> */}
+      <LoginForm>
+        <a href="http://localhost:8080/oauth2/authorization/google">
+          <Button>구글 로그인</Button>
+        </a>
+      </LoginForm>
     </div>
   );
 };

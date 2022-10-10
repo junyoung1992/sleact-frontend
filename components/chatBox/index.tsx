@@ -53,10 +53,7 @@ const ChatBox: FC<Prop> = ({ chat, onSubmitForm, onChangeChat, placeHolder }) =>
       if (!memberData) return;
       return (
         <EachMention focus={focused}>
-          <img
-            src={gravatar.url(memberData[index].email, { s: '20px', d: 'retro' })}
-            alt={memberData[index].nickname}
-          />
+          <img src={gravatar.url(memberData[index].email, { s: '20px', d: 'retro' })} alt={memberData[index].name} />
           <span>{highlightedDisplay}</span>
         </EachMention>
       );
@@ -79,7 +76,7 @@ const ChatBox: FC<Prop> = ({ chat, onSubmitForm, onChangeChat, placeHolder }) =>
           <Mention
             appendSpaceOnAdd
             trigger="@"
-            data={memberData?.map((v) => ({ id: v.id, display: v.nickname })) || []}
+            data={memberData?.map((v) => ({ id: v.id, display: v.name })) || []}
             renderSuggestion={renderSuggestion}
           />
         </MentionsTextarea>
