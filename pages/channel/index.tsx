@@ -14,6 +14,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import useSocket from '@hooks/useSocket';
 import InviteChannelModal from '@components/inviteChannelModal';
 import dayjs from 'dayjs';
+import { Client, IMessage } from '@stomp/stompjs';
 
 const Channel = () => {
   const { workspace, channel } = useParams<{ workspace?: string; channel?: string }>();
@@ -31,7 +32,7 @@ const Channel = () => {
     (index) => `/api/workspaces/${workspace}/channels/${channel}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
-  const [socket] = useSocket(workspace);
+  // const [socket] = useSocket(workspace);
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
   const scrollbarRef = useRef<Scrollbars>(null);
@@ -51,9 +52,12 @@ const Channel = () => {
             id: (chatData[0][0]?.id || 0) + 1,
             content: savedChat,
             userId: myData.id,
-            user: myData,
+            username: myData.name,
+            email: myData.email,
+            // user: myData,
             channelId: channelData.id,
-            channel: channelData,
+            channelName: channelData.name,
+            // channel: channelData,
             createdAt: new Date(),
           });
           return prevChatData;
@@ -75,40 +79,40 @@ const Channel = () => {
     [channel, channelData, chat, chatData, mutateChat, myData, setChat, workspace],
   );
 
-  const onMessage = useCallback(
-    (data: IChat) => {
-      // 상대방의 채팅만 mutateChat
-      // 내가 입력한 채팅은 socket.io를 통해 들어오면 안됨
-      if (
-        data.channel.name === channel &&
-        (data.content.startsWith('uploads\\') || data.content.startsWith('uploads/') || data.userId !== myData.id)
-      ) {
-        mutateChat((chatData) => {
-          chatData?.[0].unshift(data);
-          return chatData;
-        }, false).then(() => {
-          // 상대방이 채팅을 입력했을 때 스크롤이 하단으로 내려오는 기준 설정
-          if (scrollbarRef.current) {
-            if (
-              scrollbarRef.current.getScrollHeight() <
-              scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
-            ) {
-              console.log('scrollToBottom:', scrollbarRef.current?.getValues);
-              scrollbarRef.current.scrollToBottom();
-            }
-          }
-        });
-      }
-    },
-    [channel, mutateChat, myData],
-  );
+  // const onMessage = useCallback(
+  //   (data: IChat) => {
+  //     // 상대방의 채팅만 mutateChat
+  //     // 내가 입력한 채팅은 socket.io를 통해 들어오면 안됨
+  //     if (
+  //       data.channelName === channel &&
+  //       (data.content.startsWith('uploads\\') || data.content.startsWith('uploads/') || data.userId !== myData.id)
+  //     ) {
+  //       mutateChat((chatData) => {
+  //         chatData?.[0].unshift(data);
+  //         return chatData;
+  //       }, false).then(() => {
+  //         // 상대방이 채팅을 입력했을 때 스크롤이 하단으로 내려오는 기준 설정
+  //         if (scrollbarRef.current) {
+  //           if (
+  //             scrollbarRef.current.getScrollHeight() <
+  //             scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
+  //           ) {
+  //             console.log('scrollToBottom:', scrollbarRef.current?.getValues);
+  //             scrollbarRef.current.scrollToBottom();
+  //           }
+  //         }
+  //       });
+  //     }
+  //   },
+  //   [channel, mutateChat, myData],
+  // );
 
-  useEffect(() => {
-    socket?.on('message', onMessage);
-    return () => {
-      socket?.off('message', onMessage);
-    };
-  }, [onMessage, socket]);
+  // useEffect(() => {
+  //   socket?.on('message', onMessage);
+  //   return () => {
+  //     socket?.off('message', onMessage);
+  //   };
+  // }, [onMessage, socket]);
 
   // 로딩 시 스크롤바 제일 아래로
   useEffect(() => {

@@ -20,20 +20,25 @@ export interface IChat {
   // 채널의 채팅
   id: number;
   userId: number;
-  user: IUser; // 보낸 사람
+  username: string;
+  email: string;
+  // user: IUser; // 보낸 사람
   content: string;
   createdAt: Date;
   channelId: number;
-  channel: IChannel;
+  channelName: string;
+  // channel: IChannel;
 }
 
 export interface IDM {
   // DM 채팅
   id: number;
   senderId: number; // 보낸 사람 아이디
-  sender: IUser;
+  senderName: string;
+  senderEmail: string;
+  // sender: IUser;
   receiverId: number; // 받는 사람 아이디
-  receiver: IUser;
+  // receiver: IUser;
   content: string;
   createdAt: Date;
 }

@@ -58,7 +58,7 @@ const Workspace: FC = () => {
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
-  const [socket, disconnect] = useSocket(workspace);
+  // const [socket, disconnect] = useSocket(workspace);
 
   // useEffect(() => {
   //   if (channelData && userData && socket) {
@@ -67,11 +67,11 @@ const Workspace: FC = () => {
   //   }
   // }, [channelData, socket, userData]);
 
-  useEffect(() => {
-    return () => {
-      disconnect();
-    };
-  }, [disconnect, workspace]);
+  // useEffect(() => {
+  //   return () => {
+  //     disconnect();
+  //   };
+  // }, [disconnect, workspace]);
 
   const onLogout = useCallback(() => {
     axios

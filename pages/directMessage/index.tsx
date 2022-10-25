@@ -46,9 +46,10 @@ const DirectMessage = () => {
             id: (chatData[0][0]?.id || 0) + 1,
             content: savedChat,
             senderId: myData.id,
-            sender: myData,
+            senderName: myData.name,
+            senderEmail: myData.email,
             receiverId: userData.id,
-            receiver: userData,
+            // receiver: userData,
             createdAt: new Date(),
           });
           return prevChatData;

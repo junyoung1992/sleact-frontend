@@ -11,11 +11,13 @@ interface Props {
   data: IChat | IDM;
 }
 
-const BACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3095' : 'http://localhost:3095';
+const BACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://localhost:8080';
 const Chat: FC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string }>();
 
-  const user: IUser = 'sender' in data ? data.sender : data.user;
+  // const user: IUser = 'sender' in data ? data.sender : data.user;
+  const email: string = 'senderEmail' in data ? data.senderEmail : data.email;
+  const username: string = 'senderName' in data ? data.senderName : data.username;
 
   const result = useMemo(
     () =>
@@ -44,11 +46,13 @@ const Chat: FC<Props> = ({ data }) => {
   return (
     <ChatWrapper>
       <div className="chat-img">
-        <img src={gravator.url(user.email, { s: '36px', d: 'retro' })} alt={user.name} />
+        {/* <img src={gravator.url(user.email, { s: '36px', d: 'retro' })} alt={user.name} /> */}
+        <img src={gravator.url(email, { s: '36px', d: 'retro' })} alt={username} />
       </div>
       <div className="chat-text">
         <div className="chat-user">
-          <b>{user.name}</b>
+          {/* <b>{user.name}</b> */}
+          <b>{username}</b>
           <span>{dayjs(data.createdAt).format('h:mm A')}</span>
         </div>
         <p>{result}</p>
