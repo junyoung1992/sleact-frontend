@@ -98,7 +98,7 @@ if (isDevelopment && config.plugins) {
 }
 if (!isDevelopment && config.plugins) {
   config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true })); // 일부 소스 최적화
-  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
+  // config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
 }
 
 export default config;
