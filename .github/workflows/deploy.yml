@@ -16,7 +16,7 @@ jobs:
           node-version: 16
           cache: 'npm'
       - name: install module
-        run: npm install npm-run-all --save-dev --force
+        run: npm install --force && npm install --save-dev --force
       - name: build project
         run: npm run build
       - name: deploy project
