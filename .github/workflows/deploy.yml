@@ -10,19 +10,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
       - name: setup node
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'npm'
-
       - name: install module
         run: npm install --force
-
       - name: build project
         run: npm run build
-
       - name: deploy project
         uses: appleboy/scp-action@master
         with:
@@ -33,7 +29,6 @@ jobs:
           source: 'dist/*'
           strip_components: 1
           target: '/home/ec2-user/deploy/client'
-
       - name: SSH-deploy
         uses: appleboy/ssh-action@master
         with:
