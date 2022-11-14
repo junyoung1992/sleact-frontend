@@ -35,4 +35,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.SSH_PEM_KEY }}
           port: ${{ secrets.PORT }}
-          script: sudo systemctl restart nginx
+          script: sudo sh ./deploy.sh
