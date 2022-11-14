@@ -33,6 +33,6 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.SSH_PEM_KEY }}
+          key: ${{ secrets.SSH_PEM_KEY }}
           port: ${{ secrets.PORT }}
           script: sudo sh ./deploy.sh
