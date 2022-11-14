@@ -19,17 +19,18 @@ jobs:
         run: npm install --force && npm audit fix --force
       - name: build project
         run: npm run build
-      - name: deploy project
+      - name: make tar.gz
+        run: tar
+      - name: transfer build files
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PEM_KEY }}
           port: ${{ secrets.PORT }}
-          source: 'dist/*'
-          strip_components: 1
-          target: '/home/ec2-user/deploy/client'
-      - name: SSH-deploy
+          source: 'dist/*,index.html'
+          target: '/deploy/client'
+      - name: deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
