@@ -6,6 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import useSWR from 'swr';
+import { GOOGLE_AUTH_URL } from '../../constants';
 
 const LogIn = () => {
   const { data: userData, error, mutate } = useSWR('/api/users', fetcher);
@@ -73,7 +74,7 @@ const LogIn = () => {
         <Link to="/signup">회원가입 하러가기</Link>
       </LinkContainer> */}
       <LoginForm>
-        <a href="http://localhost:8080/oauth2/authorization/google">
+        <a href={GOOGLE_AUTH_URL}>
           <Button>구글 로그인</Button>
         </a>
       </LoginForm>

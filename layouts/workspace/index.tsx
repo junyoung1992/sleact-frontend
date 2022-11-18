@@ -34,6 +34,7 @@ import InviteChannelModal from '@components/inviteChannelModal';
 import ChannelList from '@components/channelList';
 import DMList from '@components/dmList';
 import useSocket from '@hooks/useSocket';
+import { LOGOUT_URL } from '../../constants';
 
 const Channel = loadable(() => import('@pages/channel'));
 const DirectMessage = loadable(() => import('@pages/directMessage'));
@@ -164,7 +165,7 @@ const Workspace: FC = () => {
                     <span id="profile-active">Active</span>
                   </div>
                 </ProfileModal>
-                <a href="http://localhost:8080/logout">
+                <a href={LOGOUT_URL}>
                   {/* <LogOutButton onClick={onLogout}>로그아웃</LogOutButton> */}
                   <LogOutButton>로그아웃</LogOutButton>
                 </a>
@@ -193,7 +194,7 @@ const Workspace: FC = () => {
                 <button onClick={onClickInviteWorkspace}>워크스페이스에 사용자 초대</button>
                 <button onClick={onClickAddChannel}>채널 만들기</button>
                 {/* <button onClick={onLogout}>로그아웃</button> */}
-                <a href="http://localhost:8080/logout">
+                <a href={LOGOUT_URL}>
                   <button onClick={onLogout}>로그아웃</button>
                 </a>
               </WorkspaceModal>
