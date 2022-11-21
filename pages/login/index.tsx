@@ -36,19 +36,9 @@ const LogIn = () => {
     [email, password, mutate],
   );
 
-  // if (userData === undefined) {
-  //   return <div>로딩중...</div>;
-  // }
-
   if (userData) {
     return <Navigate replace to="/workspace/sleact/channel/일반" />;
   }
-
-  // console.log(error, data);
-  // if (!error && data) {
-  //   console.log('로그인됨', data);
-  //   return <Navigate to="/workspace/channel" replace />;
-  // }
 
   return (
     <div id="container">
